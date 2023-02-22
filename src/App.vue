@@ -1,29 +1,24 @@
 <script >
 import NavbarComponent from './components/NavbarComponent.vue'
+import ResultatComponent from './components/ResultatComponent.vue'
 export default{
   components:{
-    NavbarComponent
+    NavbarComponent,
+    ResultatComponent
   }
 }
 </script>
 
 <template>
-
+  <NavbarComponent></NavbarComponent>
 
   <div class="mainbox">
-    <NavbarComponent class="navbar"></NavbarComponent>
+    
   </div>
+  <ResultatComponent></ResultatComponent>
 
 </template>
 
 <style>
-.navbar{
-  background-color: lightblue;
-  position: fixed;
-  top : 0px;
-  padding: 0;
-  margin: 0;
 
-
-}
 </style>
