@@ -5,7 +5,7 @@ export default {
     return{
       search : "",
       results : [],
-      chosen_result : {}
+      chosen_result : ""
       
     }
   },
@@ -42,7 +42,7 @@ export default {
         }
       }
       if (/^[a-zA-Z]$/.test(event.key) || event.key === "Backspace") {
-        console.log(event.key); // log the alphabet key that was pressed
+        //console.log(event.key); // log the alphabet key that was pressed
         this.searchAutocomplete()
 
       }
@@ -56,16 +56,17 @@ export default {
     },
     getLocation(){
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
+        navigator.geolocation.getCurrentPosition( (position) => {
           // Get the latitude and longitude from the position object
-          const latitude = position.coords.latitude;
-          const longitude = position.coords.longitude;
+          let latitude = position.coords.latitude;
+          let longitude = position.coords.longitude;
 
-          // Do something with the latitude and longitude, such as display it on the page
-          console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+          this.chosen_result = latitude + "," + longitude
+          this.$emit('update:chosen_result', this.chosen_result)
         });
       } else { 
-        console.log("Geolocation is not supported by this browser.");
+        //console.log("Geolocation is not supported by this browser.");
+        window.alert("Geolocation is not supported by this browser.");
       }
     }
   }
@@ -124,10 +125,10 @@ document.addEventListener('click', function(event) {
     <form @submit.prevent class="form-inline my-2 my-lg-0">
       <input id="search_input" @keydown="onKeyDown" v-model="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
       <div v-if="this.search.length > 0 && this.results.length > 0" id = "result_dropdown" class="res dropdown-menu">
-        <a v-for="result in results " class="dropdown-item" @click="affectResult(result)">{{result.name }}, {{ result.country }}</a>
+        <a v-for="result in results " class="dropdown-item" @click="affectResult(result.url)">{{result.name }}, {{ result.country }}</a>
       </div>
       <button @click="getLocation()" class="btn btn-outline-success my-2 my-sm-0" type="submit">
-        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><title>Location</title><path d="M256 48c-79.5 0-144 61.39-144 137 0 87 96 224.87 131.25 272.49a15.77 15.77 0 0025.5 0C304 409.89 400 272.07 400 185c0-75.61-64.5-137-144-137z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><circle cx="256" cy="192" r="48" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
+        <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><title>Location</title><path d="M256 48c-79.5 0-144 61.39-144 137 0 87 96 224.87 131.25 272.49a15.77 15.77 0 0025.5 0C304 409.89 400 272.07 400 185c0-75.61-64.5-137-144-137z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><circle cx="256" cy="192" r="48" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
       </button>
     </form>
   </div>

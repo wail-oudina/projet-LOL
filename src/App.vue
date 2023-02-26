@@ -17,7 +17,7 @@ export default{
 <template>
   <NavbarComponent v-model:chosen_result="result"></NavbarComponent>
 
-  <ResultatComponent :search_string="result.url"></ResultatComponent>
+  <ResultatComponent :search_string="result"></ResultatComponent>
 
 </template>
 
