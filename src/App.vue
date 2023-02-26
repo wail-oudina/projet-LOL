@@ -5,17 +5,19 @@ export default{
   components:{
     NavbarComponent,
     ResultatComponent
+  },
+  data(){
+    return{
+      result : ""
+    }
   }
 }
 </script>
 
 <template>
-  <NavbarComponent></NavbarComponent>
+  <NavbarComponent v-model:chosen_result="result"></NavbarComponent>
 
-  <div class="mainbox">
-    
-  </div>
-  <ResultatComponent></ResultatComponent>
+  <ResultatComponent :search_string="result.url"></ResultatComponent>
 
 </template>
 

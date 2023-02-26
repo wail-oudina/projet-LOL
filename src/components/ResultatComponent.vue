@@ -1,14 +1,25 @@
 <script>
 export default {
   name: "ResultatComponent",
-  data(){
-    return{
-      search_string:"",
-      result_data: {},
-      mode_temperature : true
 
+  watch:{
+    search_string(newValue,oldValue){
+      console.log(newValue,oldValue)
+
+      this.getWeatherByName()
+      
     }
   },
+  props:{
+    search_string : String
+  },
+  data(){
+    return{
+      result_data: {},
+      mode_temperature : true
+    }
+  },
+
   methods:{
     getWeatherByName(){
       let options = {
@@ -39,12 +50,10 @@ export default {
 
 <template>
 
-  <div>
-    <form @submit.prevent="getWeatherByName">
-      <input type="text" v-model="search_string">
-      <input type="submit" value="">
-    </form>
+  
 
+  <div>
+    
     <div v-if="Object.keys(result_data).length != 0 " class="resultBox">
       <button v-if="mode_temperature" @click="mode_temperature = !mode_temperature">°F</button>
       <button v-else @click="mode_temperature = !mode_temperature">°C</button>
