@@ -18,7 +18,10 @@ export default {
 
 <template>
   <NavbarComponent :display_search="display_search" v-model:chosen_result="result"></NavbarComponent>
+
+
   <ResultatComponent :search_string="result"></ResultatComponent>
+  
 </template>
 <style>
 
