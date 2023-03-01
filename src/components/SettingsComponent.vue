@@ -9,6 +9,15 @@ export default {
     return{
       temperature_unit : ""
     }
+  },
+  methods:{
+    create_cookie(){
+      $cookies.set('temperature_unit', this.temperature_unit, '1d')
+    },
+    doit(){
+      console.log($cookies.get('temperature_unit'))
+    }
+
   }
   
 }
@@ -17,6 +26,13 @@ export default {
 <template>
 
 <NavbarComponent></NavbarComponent>
+
+<button class="btn btn-primary m-5" @click="create_cookie()">CREATE</button>
+
+
+<button class="m-3" @click="doit()">GET</button>
+
+
 <div class="custom-control custom-switch mx-5">
   <input type="checkbox" class="custom-control-input" id="customSwitch1">
   <label class="custom-control-label" for="customSwitch1">Toggle this switch element</label>
@@ -35,7 +51,6 @@ export default {
     Fahrenheit (°F)
   </label>
 </div>
-<h1>{{ temperature_unit }}</h1>
 
 
 </template>

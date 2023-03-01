@@ -38,6 +38,8 @@ const vuetify = createVuetify({
   directives,
 })
 
+// vue-cookies
+import VueCookies from 'vue-cookies'
 
 
 
@@ -52,6 +54,12 @@ app.use(router)
 
 //vuetify
 app.use(vuetify)
+
+//vue-cookies
+app.use(VueCookies, { 
+  // options here
+
+})
 
 app.mount('#app');
 
