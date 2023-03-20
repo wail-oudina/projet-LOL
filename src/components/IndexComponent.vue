@@ -11,10 +11,9 @@
 </script>
 
 <template>
-  <NavbarComponent ></NavbarComponent>
-  <ResultatComponent ></ResultatComponent>
+  <NavbarComponent></NavbarComponent>
+  <ResultatComponent></ResultatComponent>
   
 </template>
 <style>
-
 </style>

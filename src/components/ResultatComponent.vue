@@ -103,13 +103,12 @@ export default {
         }
       };
 
-      if ( this.final_search_string.length == 0){
+      if ( this.final_search_string.length == 0 ){
         this.current_weather_data = {}
       }else {
         this.axios.request(options).then( (response) => {
         //console.log(this.final_search_string,response);
         this.current_weather_data = response.data
-
         } )
       }
 
