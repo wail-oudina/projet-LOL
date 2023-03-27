@@ -2,39 +2,48 @@
 export default {
   name: "ResultatComponent",
   props:['final_search_string'],
-  watch:{
-    final_search_string(newValue,oldValue){
-      console.log(newValue,oldValue)
-      if ( newValue.length>0 ){
-        this.getWeatherByName()
-      }      
-    }
-    
-  },
   
   data(){
     return{
       current_weather_data: {},
       mode_temperature : true,
+      photo_string : "",
+      list : []
     }
+  },
+  watch:{
+    final_search_string(newValue,oldValue){
+      console.log(newValue,oldValue)
+      if ( newValue.url.length>0 ){
+        this.getWeatherByName(newValue.url)
+      }      
+    }
+    
+  },
+  created(){
+    if ( $cookies.isKey('favorite_city') ){
+      this.getWeatherByName($cookies.get('favorite_city'))
+      // MAKE IT SEARCH PHOTOS ALONG
+    }
+    
   },
 
 
   methods:{
 
 
-    getWeatherByName(){
+    getWeatherByName(name){
       let options = {
         method: 'GET',
         url: 'https://weatherapi-com.p.rapidapi.com/current.json',
-        params: {q: this.final_search_string },
+        params: {q: name },
         headers: {
           'X-RapidAPI-Key': '30aad44501msh65bbb52a41657d8p1ad31bjsn2ec80c8ab81e',
           'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
         }
       };
 
-      if ( this.final_search_string.length == 0 ){
+      if ( this.final_search_string.url.length == 0 ){
         this.current_weather_data = {}
       }else {
         this.axios.request(options).then( (response) => {
@@ -44,6 +53,27 @@ export default {
       }
 
     },
+    getPhotos(){
+      let options = {
+        method: 'GET',
+        url: 'https://api.unsplash.com/search/photos',
+        headers: {
+          'Authorization': 'Client-ID -HEG5D4sP3AZyu0WwbYPQt4LCT-USDu-PEHAZDgKypI'
+        },
+        params: {
+          query: this.photo_string,
+          per_page: 5,
+          page:1,
+          orientation: 'squarish'
+        }
+      }
+      this.axios.request(options).then( (response) => {
+        console.log(response.data)
+        this.list = response.data.results
+       
+      } )
+
+    }
 
   }
 
@@ -54,9 +84,9 @@ export default {
 </script>
 
 <template>
-
-
-<h1>{{ final_search_string }}</h1>
+<input v-model="photo_string" type="text">
+<button @click="getPhotos()" class="btn"> GET PHOTOS</button>
+<h1>{{ final_search_string.url }}</h1>
 
   <div>
     <div v-if="Object.keys(current_weather_data).length != 0 " class="resultBox">
@@ -72,7 +102,10 @@ export default {
 
     </div>
 
-
+    <div v-for="i in list" >
+      
+      <img :src="i.urls.small" alt="">
+    </div>
 
 
   </div>

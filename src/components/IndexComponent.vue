@@ -11,7 +11,7 @@
     },
     data(){
       return{
-        final_search_string : ""
+        final_search_string : Object
       }
     }
   }

@@ -63,7 +63,7 @@ export default {
     },
   },
   props:{
-      final_search_string: String
+      final_search_string: Object
   },
   emits: ['update:final_search_string'],
   
@@ -91,7 +91,8 @@ export default {
   <div v-if="show_resultbox" class="result-container d-flex flex-column justify-content-center ">
 
 
-    <div v-for="result in autocomplete_data" @click="affectResult(result.url)"  class="result-item px-2 py-1 ">{{result.name }}, {{ result.country }}</div>
+    <div v-for="result in autocomplete_data" @click="affectResult(result)"  class="result-item px-2 py-1 ">{{result.name }}, {{ result.country }}</div>
+    
 
   </div>
 

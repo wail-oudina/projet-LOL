@@ -10,7 +10,7 @@ export default {
   data(){
     return{
       temperature_unit : "",
-      favorite_city : "",
+      favorite_city : String,
       search : "",
       final_search_string : "",
       searchbar_visible : false,
@@ -21,10 +21,6 @@ export default {
 
     create_cookie_temperature_unit(){
       $cookies.set('temperature_unit', this.temperature_unit, '60d')
-    },
-    showit(){
-      console.log($cookies.get('temperature_unit'))
-      console.log("test:",$cookies.get("temperature_unit")==null)
     },
     onKeyDown(event) {
       if (/^[a-zA-Z]$/.test(event.key) || event.key === "Backspace") {
@@ -100,12 +96,19 @@ export default {
 
   created() {
     //this.temperature_unit = $cookies.get('temperature_unit')
+
+
+  },
+  beforeMount(){
     if (!$cookies.isKey('temperature_unit')) {
-      console.log("cookie not found")
       this.temperature_unit = "C"
       this.create_cookie_temperature_unit()
+    }else{
+      this.temperature_unit = $cookies.get('temperature_unit')
     }
-
+    if ($cookies.isKey('favorite_city')) {
+      this.favorite_city = $cookies.get('favorite_city')
+    }
   },
   watch:{
     temperature_unit(){
@@ -121,12 +124,6 @@ export default {
 <template>
 
 <NavbarComponent></NavbarComponent>
-
-<button class="btn btn-primary m-5" @click="create_cookie_temperature_unit()">CREATE</button>
-
-
-<button class="m-3" @click="showit()">GET</button>
-
 
 <!-- <div class="custom-control custom-switch mx-5">
   <input type="checkbox" class="custom-control-input" id="customSwitch1">
