@@ -24,4 +24,7 @@
   
 </template>
 <style>
+body{
+  background-color: #2B4162;
+}
 </style>

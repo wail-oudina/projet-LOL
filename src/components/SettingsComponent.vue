@@ -78,7 +78,7 @@ export default {
             }
           };
           this.axios.request(options).then( (response) => {
-            this.affectResult(response.data[0]["name"]+","+response.data[0]["region"])
+            this.affectResult(response.data[0]["name"]+" "+response.data[0]["region"])
           } )
         });
       } else { 
@@ -172,7 +172,7 @@ export default {
   
     </div>
     <div v-if="show_resultbox" class="liste-resultats d-flex flex-column">
-      <div v-for="result in autocomplete_data" @click="affectResult(result.name+','+result.region)"  class="result-item px-2 py-1 ">{{result.name }}, {{ result.country }}</div>
+      <div v-for="result in autocomplete_data" @click="affectResult(result.name+' '+result.region)"  class="result-item px-2 py-1 ">{{result.name }}, {{ result.country }}</div>
     </div>
 
   </div>
@@ -192,7 +192,15 @@ export default {
 
 </template>
 <style>
+  .setting-affichage {
+   color:white;
+  }
+  .setting-ville-fav {
+   color:white;
+  }
   .liste-resultats{
+    color: black;
+    background-color: #F5F0F6;
     border: 1px solid gray;
     border-radius: 5px;
 
