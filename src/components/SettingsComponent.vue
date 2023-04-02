@@ -10,7 +10,7 @@ export default {
   data(){
     return{
       temperature_unit : "",
-      favorite_city : "",
+      favorite_city : String,
       search : "",
       final_search_string : "",
       searchbar_visible : false,
@@ -22,13 +22,9 @@ export default {
     create_cookie_temperature_unit(){
       $cookies.set('temperature_unit', this.temperature_unit, '60d')
     },
-    showit(){
-      console.log($cookies.get('temperature_unit'))
-      console.log("test:",$cookies.get("temperature_unit")==null)
-    },
     onKeyDown(event) {
       if (/^[a-zA-Z]$/.test(event.key) || event.key === "Backspace") {
-        //console.log(event.key); // log the alphabet key that was pressed
+
         this.request_autocomplete_data(this.search)
       }
     },
@@ -82,7 +78,7 @@ export default {
             }
           };
           this.axios.request(options).then( (response) => {
-            this.affectResult(response.data[0]["name"]+","+response.data[0]["region"])
+            this.affectResult(response.data[0]["name"]+" "+response.data[0]["region"])
           } )
         });
       } else { 
@@ -100,12 +96,19 @@ export default {
 
   created() {
     //this.temperature_unit = $cookies.get('temperature_unit')
+
+
+  },
+  beforeMount(){
     if (!$cookies.isKey('temperature_unit')) {
-      console.log("cookie not found")
       this.temperature_unit = "C"
       this.create_cookie_temperature_unit()
+    }else{
+      this.temperature_unit = $cookies.get('temperature_unit')
     }
-
+    if ($cookies.isKey('favorite_city')) {
+      this.favorite_city = $cookies.get('favorite_city')
+    }
   },
   watch:{
     temperature_unit(){
@@ -122,20 +125,14 @@ export default {
 
 <NavbarComponent></NavbarComponent>
 
-<button class="btn btn-primary m-5" @click="create_cookie_temperature_unit()">CREATE</button>
-
-
-<button class="m-3" @click="showit()">GET</button>
-
-
 <!-- <div class="custom-control custom-switch mx-5">
   <input type="checkbox" class="custom-control-input" id="customSwitch1">
   <label class="custom-control-label" for="customSwitch1">Toggle this switch element</label>
 </div> -->
 
 <div class="setting-affichage my-3 p-3">
-  <h2>Affichage</h2>
-  <h5>Unité de temperature</h5>
+  <h2>Display</h2>
+  <h5>Temperature Unit</h5>
   <div class="form-check">
     <input v-model="temperature_unit" class="form-check-input" type="radio" name="temperature_unit" id="temperature_unit_c" value="C">
     <label class="form-check-label" for="temperature_unit_c">
@@ -175,7 +172,7 @@ export default {
   
     </div>
     <div v-if="show_resultbox" class="liste-resultats d-flex flex-column">
-      <div v-for="result in autocomplete_data" @click="affectResult(result.name+','+result.region)"  class="result-item px-2 py-1 ">{{result.name }}, {{ result.country }}</div>
+      <div v-for="result in autocomplete_data" @click="affectResult(result.name+' '+result.region)"  class="result-item px-2 py-1 ">{{result.name }}, {{ result.country }}</div>
     </div>
 
   </div>
@@ -195,7 +192,15 @@ export default {
 
 </template>
 <style>
+  .setting-affichage {
+   color:white;
+  }
+  .setting-ville-fav {
+   color:white;
+  }
   .liste-resultats{
+    color: black;
+    background-color: #F5F0F6;
     border: 1px solid gray;
     border-radius: 5px;
 

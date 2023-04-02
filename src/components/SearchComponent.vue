@@ -16,7 +16,7 @@ export default {
     },
     onKeyDown(event) {
       if (/^[a-zA-Z]$/.test(event.key) || event.key === "Backspace") {
-        //console.log(event.key); // log the alphabet key that was pressed
+
         this.request_autocomplete_data()
       }
     },
@@ -31,7 +31,7 @@ export default {
         }
       };
       this.axios.request(options).then( (response) => {
-        //console.log(response);
+
         this.autocomplete_data = response.data
         if (this.autocomplete_data.length > 0) {
           this.show_resultbox = true
@@ -55,7 +55,11 @@ export default {
           let latitude = position.coords.latitude;
           let longitude = position.coords.longitude;
 
-          this.affectResult(latitude + "," + longitude)
+          //this.affectResult(latitude + "," + longitude)
+          this.search = latitude + "," + longitude
+          this.request_autocomplete_data()
+          
+          
         });
       } else { 
         window.alert("Geolocation is not supported by this browser.");
@@ -63,7 +67,7 @@ export default {
     },
   },
   props:{
-      final_search_string: String
+      final_search_string: Object
   },
   emits: ['update:final_search_string'],
   
@@ -73,13 +77,13 @@ export default {
 
 <template>
 
-<div  v-if="isSearchActivated" class="d-flex p-2 justify-content-center">
-    <input @keydown="onKeyDown" v-model="search" v-click-outside="onclickOutside" class="form-control  mx-3 w-25 " width="200px" id="search-input"   type="search" placeholder="Search a city.  Ex : Paris" aria-label="Search">
+
+  <div  v-if="isSearchActivated" v-click-outside="onclickOutside" class="d-flex p-2 justify-content-center">
+    <input @keydown="onKeyDown" v-model="search"  class="form-control  mx-3 w-25 color" width="200px" id="search-input"   type="search" placeholder="Search a city.  Ex : Paris" aria-label="Search">
     <button @click="this.final_search_string = getLocation()"  class="btn btn-outline-primary " >
       <svg  width="20" height="20" xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><title>Location</title><path d="M256 48c-79.5 0-144 61.39-144 137 0 87 96 224.87 131.25 272.49a15.77 15.77 0 0025.5 0C304 409.89 400 272.07 400 185c0-75.61-64.5-137-144-137z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><circle cx="256" cy="192" r="48" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
     </button>
   </div>
-
   <div v-else class="d-flex p-2 justify-content-center">
     <button @click="isSearchActivated = !isSearchActivated" class="btn btn-outline-info " type="submit">
       <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
@@ -88,14 +92,23 @@ export default {
       </svg>
     </button>
   </div>  
-  <div v-if="show_resultbox" class="result-container d-flex flex-column justify-content-center ">
+
+  
+  <div  v-if="show_resultbox" class="resultbox result-container d-flex flex-column justify-content-center ">
 
 
-    <div v-for="result in autocomplete_data" @click="affectResult(result.url)"  class="result-item px-2 py-1 ">{{result.name }}, {{ result.country }}</div>
+    <div v-for="result in autocomplete_data" @click="affectResult(result)"  class="result-item px-2 py-1 ">{{result.name }}, {{ result.country }}</div>
+    
 
   </div>
 
 </template>
 <style>
 
+.resultbox{
+  background-color: #D8E1FF;
+}
+.v-enter-active, .v-leave-active {
+  transition: opacity 1s ease;
+}
 </style>

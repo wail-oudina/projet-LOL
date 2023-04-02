@@ -15,6 +15,7 @@ import VueAxios from 'vue-axios'
 // router
 import {createRouter, createWebHistory} from 'vue-router'
 
+
 import SettingsComponent from './components/SettingsComponent.vue'
 import IndexComponent from './components/IndexComponent.vue'
 const routes = [ 
@@ -60,6 +61,5 @@ app.use(VueCookies, {
   // options here
 
 })
-
 app.mount('#app');
 

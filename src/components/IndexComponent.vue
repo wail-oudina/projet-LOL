@@ -11,7 +11,7 @@
     },
     data(){
       return{
-        final_search_string : ""
+        final_search_string : Object
       }
     }
   }
@@ -24,4 +24,7 @@
   
 </template>
 <style>
+body{
+  background-color: #2B4162;
+}
 </style>
