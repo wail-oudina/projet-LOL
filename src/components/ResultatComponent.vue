@@ -227,7 +227,9 @@ export default {
                 Humidity:
               </h5>
               <p>{{weather_data.current.humidity}}%</p>
-              <h5>Pressure:</h5>
+              <h5>
+                <svg id="a" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36.232 36.232"><circle cx="18.116" cy="18.116" r="17.143" fill="none" stroke="#1d1d1b" stroke-miterlimit="10" stroke-width="1.946"/><circle cx="7.576" cy="13.03" r="1.573" fill="#1d1d1b" stroke="#1d1d1b" stroke-miterlimit="10" stroke-width=".5"/><circle cx="18.116" cy="6.309" r="1.573" fill="#1d1d1b" stroke="#1d1d1b" stroke-miterlimit="10" stroke-width=".5"/><circle cx="28.766" cy="13.03" r="1.573" fill="#1d1d1b" stroke="#1d1d1b" stroke-miterlimit="10" stroke-width=".5"/><circle cx="11.538" cy="8.338" r="1.573" fill="#1d1d1b" stroke="#1d1d1b" stroke-miterlimit="10" stroke-width=".5"/><circle cx="24.804" cy="8.338" r="1.573" fill="#1d1d1b" stroke="#1d1d1b" stroke-miterlimit="10" stroke-width=".5"/><circle cx="18.116" cy="26.669" r="2.867" fill="#1d1d1b" stroke="#1d1d1b" stroke-miterlimit="10" stroke-width=".4"/><rect x="16.888" y="14.603" width="2.456" height="9.308" fill="#1d1d1b" stroke="#1d1d1b" stroke-miterlimit="10" stroke-width=".5"/><ellipse cx="18.116" cy="14.353" rx="1.228" ry="1.214" fill="#1d1d1b" stroke="#1d1d1b" stroke-miterlimit="10" stroke-width=".5"/></svg>
+                Pressure:</h5>
               <p>{{ weather_data.current.pressure_mb }} kPa</p>
             </div>
           </div>
