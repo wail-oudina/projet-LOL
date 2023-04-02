@@ -24,7 +24,7 @@ export default {
     },
     onKeyDown(event) {
       if (/^[a-zA-Z]$/.test(event.key) || event.key === "Backspace") {
-        //console.log(event.key); // log the alphabet key that was pressed
+
         this.request_autocomplete_data(this.search)
       }
     },
@@ -131,8 +131,8 @@ export default {
 </div> -->
 
 <div class="setting-affichage my-3 p-3">
-  <h2>Affichage</h2>
-  <h5>Unité de temperature</h5>
+  <h2>Display</h2>
+  <h5>Temperature Unit</h5>
   <div class="form-check">
     <input v-model="temperature_unit" class="form-check-input" type="radio" name="temperature_unit" id="temperature_unit_c" value="C">
     <label class="form-check-label" for="temperature_unit_c">

@@ -1,4 +1,5 @@
 <script >
+import VueAxios from 'vue-axios';
 
 export default{
 

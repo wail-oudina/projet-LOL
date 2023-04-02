@@ -16,7 +16,7 @@ export default {
     },
     onKeyDown(event) {
       if (/^[a-zA-Z]$/.test(event.key) || event.key === "Backspace") {
-        //console.log(event.key); // log the alphabet key that was pressed
+
         this.request_autocomplete_data()
       }
     },
@@ -31,7 +31,7 @@ export default {
         }
       };
       this.axios.request(options).then( (response) => {
-        //console.log(response);
+
         this.autocomplete_data = response.data
         if (this.autocomplete_data.length > 0) {
           this.show_resultbox = true

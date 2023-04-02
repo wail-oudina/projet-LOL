@@ -61,7 +61,5 @@ app.use(VueCookies, {
   // options here
 
 })
-
-
 app.mount('#app');
 
