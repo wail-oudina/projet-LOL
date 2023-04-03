@@ -1,7 +1,7 @@
 <script>
 export default {
   name: "ResultatComponent",
-  props:['final_search_string'],
+  props:['searched_city_data'],
   
   data(){
     return{
@@ -28,7 +28,7 @@ export default {
     }
   },
   watch:{
-    final_search_string(newValue,oldValue){
+    searched_city_data(newValue,oldValue){
 
       if ( newValue.url.length>0 ){
         this.getWeatherByName(newValue.url)
@@ -39,10 +39,10 @@ export default {
   },
   created(){
     this.tworandomints();
-    this.final_search_string.url = "";
+    this.searched_city_data.url = "";
 
     if ( $cookies.isKey('favorite_city') ){
-      this.final_search_string.url = $cookies.get('favorite_city')
+      this.searched_city_data.url = $cookies.get('favorite_city')
       this.getWeatherByName($cookies.get('favorite_city'))
       
       this.getPhotos($cookies.get('favorite_city'))
@@ -66,7 +66,7 @@ export default {
         }
       };
       
-      if ( this.final_search_string.url.length == 0 || this.final_search_string.url == undefined ){
+      if ( this.searched_city_data.url.length == 0 || this.searched_city_data.url == undefined ){
         this.weather_data = {}
       }else {
         this.axios.request(options).then( (response) => {
@@ -156,9 +156,9 @@ export default {
 <template>
 
 
-  <div class="resultat">
+  <div v-if="Object.keys(weather_data).length != 0 " class="resultat">
 
-    <div v-if="Object.keys(weather_data).length != 0 " class="container mt-5">
+    <div  class="container mt-5">
       <div class="card border-0 shadow-lg my-4">
         <div class="card-header bg-info text-white text-center py-3">
           <h3 class="m-0">Current Weather </h3>
@@ -182,7 +182,7 @@ export default {
                 </svg>
                 Temperature:
               </h5>
-              <p v-if=" $cookies.get('temperature_unit') === 'C' || !$cookies.isKey('temperature_unit') " > {{ weather_data.current.temp_c }}°C </p>
+              <p v-if=" $cookies.get('units').temperature_unit === 'C' || !$cookies.isKey('temperature_unit') " > {{ weather_data.current.temp_c }}°C </p>
               <p v-else>{{ weather_data.current.temp_f }}°F </p>
               <h5 class="text-secondary">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -191,20 +191,26 @@ export default {
                 </svg>
                 Wind:
               </h5>
-              <p>
-                {{weather_data.current.wind_kph}} km/h
-                <svg :style="{transform:'rotate('+weather_data.current.wind_degree+'deg)'}" xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
+              <div class="d-flex justify-content-center ">
+                <div class="mx-2">
+                  <p v-if=" $cookies.get('units').distance_unit === 'km' || !$cookies.isKey('units') " > {{weather_data.current.wind_kph}} km/h  </p>
+                  <p v-else>{{weather_data.current.wind_mph}} mi/h  </p>
+                </div>
+                <svg :style="{transform:'rotate('+weather_data.current.wind_degree+'deg)'}" xmlns="http://www.w3.org/2000/svg" class="ionicon mx-2" viewBox="0 0 512 512">
                   <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M112 244l144-144 144 144M256 120v292"/>
                 </svg>
                 {{ dict_directions[weather_data.current.wind_dir] }}
-              </p>
+              </div>
               <h5>
                 <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
                   <path d="M255.66 112c-77.94 0-157.89 45.11-220.83 135.33a16 16 0 00-.27 17.77C82.92 340.8 161.8 400 255.66 400c92.84 0 173.34-59.38 221.79-135.25a16.14 16.14 0 000-17.47C428.89 172.28 347.8 112 255.66 112z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/>
                   <circle cx="256" cy="256" r="80" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/>
                 </svg>
-                Visibility:</h5>
-              <p>{{ weather_data.current.vis_km }} km</p>
+                Visibility:
+              </h5>
+              <p v-if=" $cookies.get('units').distance_unit === 'km' || !$cookies.isKey('units') " > {{ weather_data.current.vis_km }} km  </p>
+              <p v-else>{{ weather_data.current.vis_miles }} mi </p>
+              
 
             </div>
             <div class="col-sm-6">
@@ -217,7 +223,7 @@ export default {
                 </svg>
                 Feels Like:
               </h5>
-              <p v-if=" $cookies.get('temperature_unit') === 'C' || !$cookies.isKey('temperature_unit') " > {{ weather_data.current.feelslike_c }}°C </p>
+              <p v-if=" $cookies.get('units').temperature_unit === 'C' || !$cookies.isKey('units') " > {{ weather_data.current.feelslike_c }}°C </p>
               <p v-else>{{ weather_data.current.feelslike_f }}°F </p>
               <h5 class="text-secondary">
                 <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
@@ -230,7 +236,9 @@ export default {
               <h5>
                 <svg id="a" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36.232 36.232"><circle cx="18.116" cy="18.116" r="17.143" fill="none" stroke="#1d1d1b" stroke-miterlimit="10" stroke-width="1.946"/><circle cx="7.576" cy="13.03" r="1.573" fill="#1d1d1b" stroke="#1d1d1b" stroke-miterlimit="10" stroke-width=".5"/><circle cx="18.116" cy="6.309" r="1.573" fill="#1d1d1b" stroke="#1d1d1b" stroke-miterlimit="10" stroke-width=".5"/><circle cx="28.766" cy="13.03" r="1.573" fill="#1d1d1b" stroke="#1d1d1b" stroke-miterlimit="10" stroke-width=".5"/><circle cx="11.538" cy="8.338" r="1.573" fill="#1d1d1b" stroke="#1d1d1b" stroke-miterlimit="10" stroke-width=".5"/><circle cx="24.804" cy="8.338" r="1.573" fill="#1d1d1b" stroke="#1d1d1b" stroke-miterlimit="10" stroke-width=".5"/><circle cx="18.116" cy="26.669" r="2.867" fill="#1d1d1b" stroke="#1d1d1b" stroke-miterlimit="10" stroke-width=".4"/><rect x="16.888" y="14.603" width="2.456" height="9.308" fill="#1d1d1b" stroke="#1d1d1b" stroke-miterlimit="10" stroke-width=".5"/><ellipse cx="18.116" cy="14.353" rx="1.228" ry="1.214" fill="#1d1d1b" stroke="#1d1d1b" stroke-miterlimit="10" stroke-width=".5"/></svg>
                 Pressure:</h5>
-              <p>{{ weather_data.current.pressure_mb }} kPa</p>
+              
+              <p v-if=" $cookies.get('units').pressure_unit === 'mb' || !$cookies.isKey('units') " > {{ weather_data.current.pressure_mb }} hPa  </p>
+              <p v-else>{{ weather_data.current.pressure_in }} inHg  </p>
             </div>
           </div>
         </div>
@@ -253,9 +261,9 @@ export default {
               <p>{{ forecastday.day.condition.text }}  </p>
               <img class="mx-auto" style="height: 64px;width: 64px;" :src="forecastday.day.condition.icon">
 
-              <p v-if=" $cookies.get('temperature_unit') === 'C' || !$cookies.isKey('temperature_unit') ">Min Temperature: {{ forecastday.day.mintemp_c }}°</p>
+              <p v-if=" $cookies.get('units').temperature_unit === 'C' || !$cookies.isKey('units') ">Min Temperature: {{ forecastday.day.mintemp_c }}°</p>
               <p v-else>Min Temperature: {{ forecastday.day.mintemp_f }}°</p>
-              <p v-if=" $cookies.get('temperature_unit') === 'C' || !$cookies.isKey('temperature_unit') ">Max Temperature: {{ forecastday.day.maxtemp_c }}°</p>
+              <p v-if=" $cookies.get('units').temperature_unit === 'C' || !$cookies.isKey('units') ">Max Temperature: {{ forecastday.day.maxtemp_c }}°</p>
               <p v-else>Max Temperature: {{ forecastday.day.maxtemp_f }}°</p>
             </div>
             
@@ -290,9 +298,36 @@ export default {
     </div>
 
   </div>
+  <div v-else >
+    <!-- bootstrap card saying welcome to this weather website and please enter a city -->
+    <div class="container my-7 custom-welcome ">
+      <div class="card border-0 shadow-lg">
+        <div class="card-header bg-info text-white text-center py-3">
+          <h3 class="m-0">Welcome to this weather website</h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <p class="text-center">Please enter a city in the search bar above</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 
 </template>
 <style>
+.custom-welcome{
+  margin-right: 25%;
+  margin-left: 25%;
+  width: 50%;
+  height: 50%;
+  z-index: 0;
+  position: absolute;
+  top: 40%;
+}
 
 .btn-actualiser{
   position: absolute;

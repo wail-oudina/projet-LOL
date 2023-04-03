@@ -11,7 +11,7 @@
     },
     data(){
       return{
-        final_search_string : Object
+        searched_city_data : Object
       }
     }
   }
@@ -19,8 +19,8 @@
 
 <template>
   <NavbarComponent></NavbarComponent>
-  <SearchComponent v-model:final_search_string="final_search_string" ></SearchComponent>
-  <ResultatComponent :final_search_string="final_search_string" ></ResultatComponent>
+  <SearchComponent v-model:searched_city_data="searched_city_data" ></SearchComponent>
+  <ResultatComponent :searched_city_data="searched_city_data" ></ResultatComponent>
   
 </template>
 <style>

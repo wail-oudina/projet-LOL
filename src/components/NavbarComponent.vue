@@ -43,7 +43,8 @@ export default {
 </template>
 <style>
 .mon-btn-settings{
-  background-color: #D7B377;
+  background-color: #B38338;
+  color: white !important;
   
 }
 .ma-navbar{
