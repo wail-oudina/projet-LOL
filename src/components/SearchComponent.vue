@@ -11,16 +11,20 @@ export default {
     }
   },
   methods:{
+    // Méthode pour gérer le clic en dehors du composant
     onclickOutside(){
       this.isSearchActivated = false
     },
+    // Méthode pour gérer les événements clavier de l'input
     onKeyDown(event) {
       if (/^[a-zA-Z]$/.test(event.key) || event.key === "Backspace") {
 
         this.request_autocomplete_data()
       }
     },
+    // Méthode pour effectuer la requête d'autocomplétion
     request_autocomplete_data(){
+      // Configuration de la requête
       let options = {
         method: 'GET',
         url: 'https://weatherapi-com.p.rapidapi.com/search.json',
@@ -30,9 +34,11 @@ export default {
           'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
         }
       };
+      // Si la longueur de l'entrée est inférieure à 2, ne fait rien
       if (this.search_input.length < 2){
           return
         }
+      // Effectue la requête et met à jour les données
       this.axios.request(options).then( (response) => {
 
         this.autocomplete_data = response.data
@@ -41,17 +47,18 @@ export default {
 
       } )
     },
-
+    // Méthode pour mettre à jour les données de la ville recherchée
     affectResult(result){
       this.searched_city_data = result
       this.$emit('update:searched_city_data', this.searched_city_data)
       this.show_resultbox = false
 
     },
+    // Méthode pour obtenir la position actuelle de l'utilisateur
     getLocation(){
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition( (position) => {
-          // Get the latitude and longitude from the position object
+
           let latitude = position.coords.latitude;
           let longitude = position.coords.longitude;
 
