@@ -94,7 +94,6 @@ export default {
       this.axios.request(options).then( (response) => {
 
         this.list = response.data.results
-        
       } )
       
     },
@@ -309,6 +308,7 @@ export default {
           <div class="row">
             <div class="col-sm-12">
               <p class="text-center">Please enter a city in the search bar above</p>
+              <img class="gif" src="/weather.gif" alt="">
             </div>
           </div>
         </div>
@@ -319,6 +319,14 @@ export default {
 
 </template>
 <style>
+
+.gif{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  border-radius: 5%;
+}
 .custom-welcome{
   margin-right: 25%;
   margin-left: 25%;
