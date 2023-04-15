@@ -49,7 +49,6 @@ export default {
 }
 .ma-navbar{
   background-color: #97A8B4;
-  
 }
 
 svg {
